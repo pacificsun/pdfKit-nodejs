@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const PDFDocument = require("pdfkit");
 
 function createInvoice(invoice, path) {
@@ -15,22 +16,19 @@ function createInvoice(invoice, path) {
 
 function generateHeader(doc) {
   doc
-    .image("logo.png", 50, 45, { width: 50 })
+    .image(path.join(__dirname, "/logo.png"), 50, 45, { width: 50 })
     .fillColor("#444444")
     .fontSize(20)
-    .text("ACME Inc.", 110, 57)
+    .text("Home Health Education Service", 110, 57)
     .fontSize(10)
-    .text("ACME Inc.", 200, 50, { align: "right" })
-    .text("123 Main Street", 200, 65, { align: "right" })
-    .text("New York, NY, 10025", 200, 80, { align: "right" })
+    .text("P.O.BOX 2399", 200, 50, { align: "right" })
+    .text("Dalton, GA 30722-2399", 200, 65, { align: "right" })
+    .text("(404)299-1621", 200, 80, { align: "right" })
     .moveDown();
 }
 
 function generateCustomerInformation(doc, invoice) {
-  doc
-    .fillColor("#444444")
-    .fontSize(20)
-    .text("Invoice", 50, 160);
+  // doc.fillColor("#444444").fontSize(20).text("Invoice", 50, 160);
 
   generateHr(doc, 185);
 
@@ -139,14 +137,19 @@ function generateInvoiceTable(doc, invoice) {
 }
 
 function generateFooter(doc) {
-  doc
-    .fontSize(10)
-    .text(
-      "Payment is due within 15 days. Thank you for your business.",
-      50,
-      780,
-      { align: "center", width: 500 }
-    );
+  doc.image(
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAA7CAYAAAA5MNl5AAAD/klEQVRoQ9WaS8iOQRTHf18JC+xckkKuYSNyS6FkIZeN2xZFuUWUlXtCIZcoNiz1sXBZWCik3EJZoFzCghSRshGK/jWjaXre93meeW7znnr7Lu+cmf9/zpyZM+dMF3HIbkCfYOkK1ixHcS2wApgN3AbmhHbbJJGrwEIHeMcR0eyfA4Y5JC4Cy0KtIb26LXIPmO4A/gKsAh4C+j1Y6iKyGVhsfMGCfQJsM74RTMAqVk1kNHDGI6CxTwPrC6N3OqiSyFbgcALYlcD5MklU6SNXgEUe2OfAhrKWkj8RVVjkATDVG0hb6xbgadmWqMpHXgMjE0gEH3RZiZdlkUnAZWCIN/BZ4ADwPiug0HZlEFkKdCcA2FM0fspDqgwiN4C53qA6pXVa1yZFiWwETnhoa7VEGc6+A9jrkajkjMhi1lCL6O6wyxngKyBLnMwyaBVtQoiIxGpnh/oNKJZS2NGY5CWiHeoU0N9B3IhPFDnZdY+41fTu1MrkWS0iS8gnxpuOtLXaT2PLyR04KxH/rJgB3I+CgQGRhcgFYLkDuvbDLsuEpRHRxegOMNB0thPYl6XjutukEdkEHDegfgAjit6tqyKYRuQRMNkMHuWSyhKiyC/kH5K3wLRYrSGA7SyiM0NnhySKQ6/dsmxFRCf3Z0dxLPCyqvVdRr+tiKwzoYjGuAvMLGOwKvtoRaSjllU7H/nrzJ4SB8qCRC1JFvGDw7QtOgqCSSDdS1P0u1W7c+QVMMo0ULT7IoopTwHhW8RdVkpxTugEEknO/sy5cyhb3uj1Nc8kuhZR0lnJZ4mKLlpWhYoveYAUbesS0cGnC5Ok9PpFUaBp+paIQhIFhn2MwnzgeppyTN9bIguAaw6wwcCnmICmYbFEVB5b4/jHgDTF2L63RN455eKO8w+7/c7yYilVlo7FNuNpeGQR3z9UMj6Sphjb9yIi35CPWGkso15kckTkqClU2n6G11EqKwI6SVdE3LBEbaK/1rYi4t4GC73QKXuW8/QnizwGVJW1MgZQKN9RIiJvTAbRAldmUYWbjhIR0XsRvRuxopq4HL4J0X1oIrAE+GMeH/wyh7WWfU+gn1lF9r2X8HaLiPK5soordVxxFajqqcc8k5YdCijGC5FvNkRJegRzCNgPKHltRTOmGbAvGezfrjWTgNhSnQpG0tHPMuU/kV7Az4Se9QjmO9ADmGJMmwZAJFXl1QaiSeibpuB9L/3eBo9NQ2kZ6f8qc7RcWrYfv+Scc/zg5h8BVYb1ZkW7ZVAOzU8+HAS2B0PKp6gapCLtIOD+UEl5LZnxkne25IGoJeC+IJWuwGqZ6nGmao8f8nSYpW27LKLWuH2Xq8z8TWBQRmcfB+hy5m4MWfAEt/kHn7SnqO3agosAAAAASUVORK5CYII=",
+    50,
+    580,
+    { width: 20 }
+  );
+  // .fontSize(10)
+  // .text(
+  //   "Payment is due within 15 days. Thank you for your business.",
+  //   50,
+  //   780,
+  //   { align: "center", width: 500 }
+  // );
 }
 
 function generateTableRow(
@@ -168,12 +171,7 @@ function generateTableRow(
 }
 
 function generateHr(doc, y) {
-  doc
-    .strokeColor("#aaaaaa")
-    .lineWidth(1)
-    .moveTo(50, y)
-    .lineTo(550, y)
-    .stroke();
+  doc.strokeColor("#aaaaaa").lineWidth(1).moveTo(50, y).lineTo(550, y).stroke();
 }
 
 function formatCurrency(cents) {
@@ -189,5 +187,5 @@ function formatDate(date) {
 }
 
 module.exports = {
-  createInvoice
+  createInvoice,
 };
