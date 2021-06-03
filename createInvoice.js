@@ -97,30 +97,14 @@ function generateInvoiceTable(doc, invoice) {
     .text("Order Details", 50, 230);
 
   doc.font("Helvetica-Bold");
-  generateTableRow(
-    doc,
-    invoiceTableTop,
-    "Item",
-    "Description",
-    "Unit Cost",
-    "Quantity",
-    "Line Total"
-  );
+  generateTableRow(doc, invoiceTableTop, "Products", "", "", "", "Quantity");
   generateHr(doc, invoiceTableTop + 20);
   doc.font("Helvetica");
 
   for (i = 0; i < invoice.items.length; i++) {
     const item = invoice.items[i];
     const position = invoiceTableTop + (i + 1) * 30;
-    generateTableRow(
-      doc,
-      position,
-      item.item,
-      item.description,
-      formatCurrency(item.amount / item.quantity),
-      item.quantity,
-      formatCurrency(item.amount)
-    );
+    generateTableRow(doc, position, item.item, "", "", "", item.quantity);
 
     generateHr(doc, position + 20);
   }
@@ -136,19 +120,29 @@ function generateInvoiceTable(doc, invoice) {
     formatCurrency(invoice.subtotal)
   );
 
-  const paidToDatePosition = subtotalPosition + 20;
+  const shippingPosition = subtotalPosition + 25;
+  const taxesPosition = shippingPosition + 25;
+  const duePosition = taxesPosition + 25;
+  paymentDetailsPosition = duePosition + 40;
+  doc.font("Helvetica");
   generateTableRow(
     doc,
-    paidToDatePosition,
+    taxesPosition,
     "",
     "",
-    "Paid To Date",
+    "Taxes",
     "",
-    formatCurrency(invoice.paid)
+    formatCurrency(invoice.subtotal - invoice.paid)
   );
-
-  const duePosition = paidToDatePosition + 25;
-  paymentDetailsPosition = duePosition + 40;
+  generateTableRow(
+    doc,
+    shippingPosition,
+    "",
+    "",
+    "Shipping",
+    "",
+    formatCurrency(invoice.subtotal - invoice.paid)
+  );
   doc.font("Helvetica-Bold");
   generateTableRow(
     doc,
