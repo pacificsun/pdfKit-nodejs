@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const PDFDocument = require("pdfkit");
+const privacyPolicy = require("./privacy-policy");
 
 function createInvoice(invoice, path) {
   let doc = new PDFDocument({ size: "A4", margin: 50 });
@@ -10,6 +11,7 @@ function createInvoice(invoice, path) {
   generateInvoiceTable(doc, invoice);
   generateBillingTable(doc, invoice);
   generateFooter(doc);
+  generatePrivacyPolicy(doc, privacyPolicy);
 
   doc.end();
   doc.pipe(fs.createWriteStream(path));
@@ -300,6 +302,62 @@ function generateFooter(doc) {
   //   780,
   //   { align: "center", width: 500 }
   // );
+}
+
+function getTermsContent(doc, data) {
+  doc.font("Helvetica").fontSize(9).fillColor("#333").text(data, 50);
+  doc.moveDown();
+}
+
+function getTermsHeading(doc, data) {
+  doc.font("Helvetica-Bold").fontSize(9).fillColor("#333").text(data, 50);
+  doc.moveDown();
+}
+
+function generatePrivacyPolicy(doc, { privacyPolicy }) {
+  doc
+    .addPage()
+    .fontSize(18)
+    .font("Helvetica-Bold")
+    .fillColor("#333")
+    .text(privacyPolicy.title, 0, 50, { align: "center" })
+    .fontSize(9)
+    .text(privacyPolicy.headingOne, 50, 85)
+    .font("Helvetica")
+    .fontSize(9)
+    .text(privacyPolicy.contentOne, 50, 105);
+
+  doc.moveDown();
+
+  getTermsHeading(doc, privacyPolicy.headingTwo);
+
+  for (let i = 0; i < privacyPolicy.contentTwo.length; i++) {
+    getTermsContent(doc, privacyPolicy.contentTwo[i]);
+  }
+
+  getTermsHeading(doc, privacyPolicy.headingThree);
+
+  for (let i = 0; i < privacyPolicy.contentThree.length; i++) {
+    getTermsContent(doc, privacyPolicy.contentThree[i]);
+  }
+
+  doc.moveDown();
+
+  for (let i = 0; i < privacyPolicy.contentFour.length; i++) {
+    getTermsContent(doc, privacyPolicy.contentFour[i]);
+  }
+
+  doc.moveDown();
+
+  for (let i = 0; i < privacyPolicy.contentFive.length; i++) {
+    getTermsContent(doc, privacyPolicy.contentFive[i]);
+  }
+
+  getTermsHeading(doc, privacyPolicy.headingFour);
+
+  for (let i = 0; i < privacyPolicy.contentSix.length; i++) {
+    getTermsContent(doc, privacyPolicy.contentSix[i]);
+  }
 }
 
 function generateTableRow(
