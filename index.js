@@ -22,6 +22,12 @@ const invoice = {
       quantity: 1,
       amount: 2000,
     },
+    {
+      item: "USB_EXT",
+      description: "USB Cable Extender",
+      quantity: 1,
+      amount: 2000,
+    },
   ],
   subtotal: 8000,
   paid: 0,
