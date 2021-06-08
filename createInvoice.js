@@ -344,7 +344,7 @@ function formatDate(date) {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
-  return year + "/" + month + "/" + day;
+  return month + "/" + day + "/" + year;
 }
 
 module.exports = {
