@@ -1,3 +1,11 @@
+Date.prototype.addDays = function (days) {
+  let date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date.toString().slice(0, 15);
+};
+
+let date = new Date();
+
 const privacyPolicy = {
   title: "Terms and Conditions",
   headingOne: "FINANCE CHARGE",
@@ -46,7 +54,9 @@ const privacyPolicy = {
     "If you cancel, any property traded in, any payments made by you under the contract or sale, and any negotiable instrument executed by you will be returned within 10 business days following receipt by the seller of your cancellation notice, and any security interest arising out of the transaction will be cancelled.",
     "If you cancel, you must make available to the seller at your residence, in substantially as good condition as when received, any goods delivered to you under this contract or sale; or you may if you wish, com-ply with the instructions of the seller regarding the return shipment of the goods at the sellers expense and risk",
     "If you do make the goods available to the seller and the seller does not pick them up within 20 days of the date of your notice of cancellation, you may retain or dispose of the goods without any further obligation. If you fail to make the goods available to the  seller, or if you agree to return the goods to the seller and fail to do so, then you remain liable for performance of all obligations under the contract.",
-    "To cancel this transaction, mail or deliver a signed and dated copy of this cancellation notice or any other written notice, to Home Health Education Service, P. 0. Box 2399, Dalton, Georgia 30722, not later than midnight of Friday, May 28, 2021.",
+    `To cancel this transaction, mail or deliver a signed and dated copy of this cancellation notice or any other written notice, to Home Health Education Service, P. 0. Box 2399, Dalton, Georgia 30722, not later than midnight of ${date.addDays(
+      3
+    )}.`,
   ],
 };
 
